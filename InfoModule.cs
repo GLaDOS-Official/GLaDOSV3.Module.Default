@@ -103,7 +103,8 @@ namespace GLaDOSV3.Module.Default
                     $"- Heap Size: {ToFileSize2(GC.GetTotalMemory(true))}\n" +
                     $"- Owner of the bot: <@{ulong.Parse(_botSettingsHelper["ownerID"], CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture)}>\n" +
                     $"- Version: {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}\n" +
-                    "- Author of the bot: <@419568355771416577>\n\n" +
+                    $"- Compiled at: {ModuleInfo.GetModule().GetCompileTime().ToShortDateString()} {(DateTime.UtcNow - ModuleInfo.GetModule().GetCompileTime()).Days} days ago!\n" +
+                    "- Author of the bot: BlackOfWorld <3\n\n" +
 
                     $"{Format.Bold("Stats")}\n" +
                     $"- Servers: {_client.Guilds.Count.ToString(CultureInfo.InvariantCulture)}\n"
