@@ -156,9 +156,9 @@ namespace GLaDOSV3.Module.Default
             if (entry != key)
             { await this.ReplyAsync("Incorrect key!").ConfigureAwait(false); return; }
             _mCache.Remove("rebuildDB_All");
-            await SqLite.Connection.ExecuteSql("DROP TABLE servers").ConfigureAwait(false);
-            await SqLite.Connection.ExecuteSql("DROP TABLE BlacklistedUsers").ConfigureAwait(false);
-            await SqLite.Connection.ExecuteSql("DROP TABLE BlacklistedServers").ConfigureAwait(false);
+            await SqLite.Connection.ExecuteSqlAsync("DROP TABLE servers").ConfigureAwait(false);
+            await SqLite.Connection.ExecuteSqlAsync("DROP TABLE BlacklistedUsers").ConfigureAwait(false);
+            await SqLite.Connection.ExecuteSqlAsync("DROP TABLE BlacklistedServers").ConfigureAwait(false);
             SqLite.Connection.Close();
             SqLite.Start();
             var message = await this.ReplyAsync("Bot will be unavailable for a while. Rebuilding the database.....\nRefactoring server table...").ConfigureAwait(true);
@@ -194,7 +194,7 @@ namespace GLaDOSV3.Module.Default
             _mCache.Remove("rebuildDB_ServerAll");
             var msg = await this.ReplyAsync("Bot will be unavailable for a while. Rebuilding the database.....\nRefactoring server table...").ConfigureAwait(true);
             CommandHandler.BotBusy = true;
-            await SqLite.Connection.ExecuteSql("DELETE FROM servers").ConfigureAwait(false);
+            await SqLite.Connection.ExecuteSqlAsync("DELETE FROM servers").ConfigureAwait(false);
             for (var i = 0; i < Context.Client.Guilds.Count; i++)
             {
                 var guild = Context.Client.Guilds.ElementAt(i);
