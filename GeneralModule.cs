@@ -16,8 +16,8 @@ namespace GLaDOSV3.Module.Default
     [RequireContext(ContextType.Guild)]
     public class GeneralModule : ModuleBase<SocketCommandContext>
     {
-        private static MemoryCache mCache;
-        public GeneralModule() => mCache ??= new MemoryCache(new MemoryCacheOptions());
+        private static MemoryCache _mCache;
+        public GeneralModule() => _mCache ??= new MemoryCache(new MemoryCacheOptions());
 
         [Name("Guild settings")]
         public class Guild : ModuleBase<SocketCommandContext>
@@ -102,7 +102,7 @@ namespace GLaDOSV3.Module.Default
                     CommandHandler.Prefix.Remove(Context.Guild.Id);
                 if (!string.IsNullOrWhiteSpace(value))
                     CommandHandler.Prefix.Add(Context.Guild.Id, value);
-                await this.ReplyAsync($"Done! Changed the prefix to: {(string.IsNullOrWhiteSpace(value) ? IsOwner.botSettingsHelper["prefix"] : value)}").ConfigureAwait(false);
+                await this.ReplyAsync($"Done! Changed the prefix to: {(string.IsNullOrWhiteSpace(value) ? IsOwner.BotSettingsHelper["prefix"] : value)}").ConfigureAwait(false);
             }
             [Command("guild configuration")]
             [Summary("Lists the current settings of the Guild module")]
@@ -133,7 +133,7 @@ namespace GLaDOSV3.Module.Default
                 finalMsg += $"Leave message: {row?[5]}\n";
                 finalMsg += $"Leave announcement status: {(row?[6] == "0" ? "Enabled ✅" : "Disabled ❌")}\n";
 #pragma warning restore CS0252 // Possible unintended reference comparison; left hand side needs cast
-                finalMsg += $"Guild prefix: {(string.IsNullOrWhiteSpace(row?[7].ToString()) ? IsOwner.botSettingsHelper["prefix"] : row?[7])}";
+                finalMsg += $"Guild prefix: {(string.IsNullOrWhiteSpace(row?[7].ToString()) ? IsOwner.BotSettingsHelper["prefix"] : row?[7])}";
                 builder.AddField("Guild settings", finalMsg);
                 await msg.ModifyAsync((a) => { a.Content = string.Empty; a.Embed = builder.Build(); }).ConfigureAwait(false);
             }
@@ -147,18 +147,18 @@ namespace GLaDOSV3.Module.Default
             if (string.IsNullOrWhiteSpace(key))
             {
                 var random = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 19);
-                mCache.Set("rebuildDB_All", random, TimeSpan.FromSeconds(45));
+                _mCache.Set("rebuildDB_All", random, TimeSpan.FromSeconds(45));
                 await this.ReplyAsync($"This is a dangerous operation! All server settings, blacklisted users, blacklisted servers will be lost! Type the \"{random}\" to rebuild it! This key will expire in 45 seconds!").ConfigureAwait(false);
                 return;
             }
-            if (!mCache.TryGetValue("rebuildDB_All", out string entry))
+            if (!_mCache.TryGetValue("rebuildDB_All", out string entry))
             { await this.ReplyAsync("Key expired or not created!").ConfigureAwait(false); return; }
             if (entry != key)
             { await this.ReplyAsync("Incorrect key!").ConfigureAwait(false); return; }
-            mCache.Remove("rebuildDB_All");
-            await SqLite.Connection.ExecuteSQL("DROP TABLE servers").ConfigureAwait(false);
-            await SqLite.Connection.ExecuteSQL("DROP TABLE BlacklistedUsers").ConfigureAwait(false);
-            await SqLite.Connection.ExecuteSQL("DROP TABLE BlacklistedServers").ConfigureAwait(false);
+            _mCache.Remove("rebuildDB_All");
+            await SqLite.Connection.ExecuteSql("DROP TABLE servers").ConfigureAwait(false);
+            await SqLite.Connection.ExecuteSql("DROP TABLE BlacklistedUsers").ConfigureAwait(false);
+            await SqLite.Connection.ExecuteSql("DROP TABLE BlacklistedServers").ConfigureAwait(false);
             SqLite.Connection.Close();
             SqLite.Start();
             var message = await this.ReplyAsync("Bot will be unavailable for a while. Rebuilding the database.....\nRefactoring server table...").ConfigureAwait(true);
@@ -183,18 +183,18 @@ namespace GLaDOSV3.Module.Default
             if (string.IsNullOrWhiteSpace(key))
             {
                 var random = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 19);
-                mCache.Set("rebuildDB_ServerAll", random, TimeSpan.FromSeconds(45));
+                _mCache.Set("rebuildDB_ServerAll", random, TimeSpan.FromSeconds(45));
                 await this.ReplyAsync($"This is a dangerous operation! All server settings will be lost! Type \"{random}\" to rebuild it! This key will expire in 45 seconds!").ConfigureAwait(false);
                 return;
             }
-            if (!mCache.TryGetValue("rebuildDB_ServerAll", out string entry))
+            if (!_mCache.TryGetValue("rebuildDB_ServerAll", out string entry))
             { await this.ReplyAsync("Key expired or not created!").ConfigureAwait(false); return; }
             if (entry != key)
             { await this.ReplyAsync("Incorrect key!").ConfigureAwait(false); return; }
-            mCache.Remove("rebuildDB_ServerAll");
+            _mCache.Remove("rebuildDB_ServerAll");
             var msg = await this.ReplyAsync("Bot will be unavailable for a while. Rebuilding the database.....\nRefactoring server table...").ConfigureAwait(true);
             CommandHandler.BotBusy = true;
-            await SqLite.Connection.ExecuteSQL("DELETE FROM servers").ConfigureAwait(false);
+            await SqLite.Connection.ExecuteSql("DELETE FROM servers").ConfigureAwait(false);
             for (var i = 0; i < Context.Client.Guilds.Count; i++)
             {
                 var guild = Context.Client.Guilds.ElementAt(i);
@@ -210,20 +210,20 @@ namespace GLaDOSV3.Module.Default
         [Summary("Rebuilds the DB for only this server")]
         [Attributes.RequireOwner]
         [RequireContext(ContextType.Guild)]
-        public async Task RebuildServerDB(string key = "")
+        public async Task RebuildServerDb(string key = "")
         {
             if (string.IsNullOrWhiteSpace(key))
             {
                 var random = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 19);
-                mCache.Set("rebuildDB_ServerThis", random, TimeSpan.FromSeconds(45));
+                _mCache.Set("rebuildDB_ServerThis", random, TimeSpan.FromSeconds(45));
                 await this.ReplyAsync($"This is a dangerous operation! This server settings will be lost! Type \"{random}\" to rebuild it! This key will expire in 45 seconds!").ConfigureAwait(false);
                 return;
             }
-            if (!mCache.TryGetValue("rebuildDB_ServerThis", out string entry))
+            if (!_mCache.TryGetValue("rebuildDB_ServerThis", out string entry))
             { await this.ReplyAsync("Key expired or not created!").ConfigureAwait(false); return; }
             if (entry != key)
             { await this.ReplyAsync("Incorrect key!").ConfigureAwait(false); return; }
-            mCache.Remove("rebuildDB_ServerThis");
+            _mCache.Remove("rebuildDB_ServerThis");
             var msg = await this.ReplyAsync("Rebuilding the database....").ConfigureAwait(true);
             await SqLite.Connection.RemoveRecordAsync("servers", $"guildid={Context.Guild.Id.ToString(CultureInfo.InvariantCulture)}").ConfigureAwait(false);
             await SqLite.Connection.AddRecordAsync("servers", "guildid,nsfw,join_toggle,leave_toggle,join_msg,leave_msg", new[] { Context.Guild.Id.ToString(CultureInfo.InvariantCulture), "0", "0", "0", "Hey {mention}! Welcome to {sname}!", "Bye {uname}" }).ConfigureAwait(false);

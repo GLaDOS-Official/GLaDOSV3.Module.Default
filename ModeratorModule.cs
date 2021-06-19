@@ -17,7 +17,7 @@ namespace GLaDOSV3.Module.Default
         [Summary("Removes specified amount of messages")]
         [Attributes.RequireUserPermissionAttribute(GuildPermission.ManageMessages)]
         [RequireBotPermission(GuildPermission.ManageMessages)]
-        [RequireMFA]
+        [RequireMfa]
         public async Task Purge(int messageCount = 20)
         {
             if (messageCount < 2)
@@ -56,7 +56,7 @@ namespace GLaDOSV3.Module.Default
         [Summary("Removes most recent messages from a user")]
         [Attributes.RequireUserPermissionAttribute(GuildPermission.ManageMessages)]
         [RequireBotPermission(GuildPermission.ManageMessages)]
-        [RequireMFA]
+        [RequireMfa]
         public async Task Prune(IUser mention, int messageCount = 20)
         {
             if (messageCount < 2)
@@ -93,7 +93,7 @@ namespace GLaDOSV3.Module.Default
         [Summary("Kicks the specified user.")]
         [Attributes.RequireUserPermissionAttribute(GuildPermission.KickMembers)]
         [RequireBotPermission(GuildPermission.KickMembers)]
-        [RequireMFA]
+        [RequireMfa]
         public async Task Kick(SocketGuildUser mention, [Remainder] string reason = "Unspecified.")
         {
             var silent = false;
@@ -153,7 +153,7 @@ namespace GLaDOSV3.Module.Default
         [Summary("Bans the specified user.")]
         [Attributes.RequireUserPermissionAttribute(GuildPermission.BanMembers)]
         [RequireBotPermission(GuildPermission.BanMembers)]
-        [RequireMFA]
+        [RequireMfa]
         public async Task Ban(SocketGuildUser mention, [Remainder] string reason = "Unspecified.")
         {
             var silent = false;
@@ -213,7 +213,7 @@ namespace GLaDOSV3.Module.Default
         [Summary("Bans the specified user.")]
         [Attributes.RequireUserPermissionAttribute(GuildPermission.BanMembers)]
         [RequireBotPermission(GuildPermission.BanMembers)]
-        [RequireMFA]
+        [RequireMfa]
         public async Task Ban(ulong userid, [Remainder] string reason = "Unspecified.")
         {
             var silent = false;
@@ -275,7 +275,7 @@ namespace GLaDOSV3.Module.Default
         [Summary("Hackbans the specified user.")]
         [Attributes.RequireUserPermissionAttribute(GuildPermission.BanMembers)]
         [RequireBotPermission(GuildPermission.BanMembers)]
-        [RequireMFA]
+        [RequireMfa]
         public async Task Hackban(ulong userid, [Remainder] string reason = "Unspecified.")
         {
             var silent = false;
