@@ -23,7 +23,7 @@ namespace GLaDOSV3.Module.Default
             using var db = await SqLite.Connection.GetValuesAsync("servers", $"WHERE guildid='{guild.Id.ToString(CultureInfo.InvariantCulture)}'").ConfigureAwait(true);
             if (Convert.ToInt32(db.Rows[0]["join_toggle"], CultureInfo.InvariantCulture) == 1)
             {
-                var text = await this.FormatText(socketGuildUser, db.Rows[0]["join_msg"].ToString()).ConfigureAwait(true);
+                var text = await socketGuildUser.FormatText(db.Rows[0]["join_msg"].ToString()).ConfigureAwait(true);
                 if (guild.GetChannel(Convert.ToUInt64(db.Rows[0]["joinleave_cid"], CultureInfo.InvariantCulture)) != null)
                     await ((ISocketMessageChannel)guild.GetChannel(Convert.ToUInt64(db.Rows[0]["joinleave_cid"], CultureInfo.InvariantCulture))).SendMessageAsync(text).ConfigureAwait(false);
                 else
@@ -39,7 +39,7 @@ namespace GLaDOSV3.Module.Default
             using var db = await SqLite.Connection.GetValuesAsync("servers", $"WHERE guildid='{guild.Id.ToString(CultureInfo.InvariantCulture)}'").ConfigureAwait(true);
             if (Convert.ToInt32(db.Rows[0]["leave_toggle"], CultureInfo.InvariantCulture) == 1)
             {
-                var text = await this.FormatText(socketGuildUser, db.Rows[0]["leave_msg"].ToString()).ConfigureAwait(true);
+                var text = await socketGuildUser.FormatText(db.Rows[0]["leave_msg"].ToString()).ConfigureAwait(true);
                 if (guild.GetChannel(Convert.ToUInt64(db.Rows[0]["joinleave_cid"], CultureInfo.InvariantCulture)) != null)
                     await ((ISocketMessageChannel)guild.GetChannel(Convert.ToUInt64(db.Rows[0]["joinleave_cid"], CultureInfo.InvariantCulture)))
                         .SendMessageAsync(text).ConfigureAwait(false);
@@ -58,11 +58,5 @@ namespace GLaDOSV3.Module.Default
             SqLite.Connection.SetValueAsync("servers", "leave_toggle", 0, $"WHERE guildid={guild.Id.ToString(CultureInfo.InvariantCulture)}");
             return Task.CompletedTask;
         }
-
-        private Task<string> FormatText(SocketGuildUser user, string text) =>
-            Task.FromResult(text.Replace("{mention}", $"<@{user.Id}>", StringComparison.Ordinal)
-                                .Replace("{uname}", user.Username, StringComparison.Ordinal)
-                                .Replace("{sname}", user.Guild.Name, StringComparison.Ordinal)
-                                .Replace("{count}", user.Guild.MemberCount.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal));
     }
 }
