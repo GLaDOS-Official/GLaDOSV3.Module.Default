@@ -21,10 +21,10 @@ using Universe.CpuUsage;
 namespace GLaDOSV3.Module.Default
 {
     [Name("Info")]
-    public class InfoModule : ModuleBase<SocketCommandContext>
+    public class InfoModule : ModuleBase<ShardedCommandContext>
     {
         private static string _infoMessage;
-        private static DiscordSocketClient _client;
+        private static DiscordShardedClient _client;
         private readonly Thread t = new Thread(new ThreadStart(RefreshMessage));
         private static BotSettingsHelper<string> _botSettingsHelper;    
         private static void RefreshMessage()
@@ -112,7 +112,7 @@ namespace GLaDOSV3.Module.Default
                 Thread.Sleep(60000);
             }
         }
-        public InfoModule(DiscordSocketClient socketClient, BotSettingsHelper<string> botSettingsHelper)
+        public InfoModule(DiscordShardedClient socketClient, BotSettingsHelper<string> botSettingsHelper)
         {
             if (_client != null && InfoModule._botSettingsHelper != null) return;
             InfoModule._botSettingsHelper = botSettingsHelper;

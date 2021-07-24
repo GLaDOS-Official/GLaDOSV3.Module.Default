@@ -8,7 +8,7 @@ namespace GLaDOSV3.Module.Default
 {
     [Name("Math")]
     [Remarks("Do some math I guess")]
-    public class MathModule : ModuleBase<SocketCommandContext>
+    public class MathModule : ModuleBase<ShardedCommandContext>
     {
         [Command("solve")]
         [Remarks("solve <math>")]

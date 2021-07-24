@@ -4,6 +4,7 @@ using GLaDOSV3.Helpers;
 using System;
 using System.Reflection;
 using System.Runtime.Loader;
+using GLaDOSV3.Models.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GLaDOSV3.Module.Default
@@ -29,21 +30,21 @@ namespace GLaDOSV3.Module.Default
             return _singleton;
         }
 
-        public void PreLoad(DiscordSocketClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceProvider provider)
+        public void PreLoad(DiscordShardedClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceProvider provider)
         { }
 
-        public void PostLoad(DiscordSocketClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceProvider provider)
+        public void PostLoad(DiscordShardedClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceProvider provider)
         { }
 
-        public void Reload(DiscordSocketClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceProvider provider)
+        public void Reload(DiscordShardedClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceProvider provider)
         { }
 
-        public void Unload(DiscordSocketClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceProvider provider)
+        public void Unload(DiscordShardedClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceProvider provider)
         { }
 
         public static void OnPluginUnloadingRequested(AssemblyLoadContext obj)
         { }
 
-        public Type[] Services(DiscordSocketClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceCollection provider) => new Type[] { typeof(InfoModule), typeof(WelcomeService) };
+        public Type[] Services(DiscordShardedClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceCollection provider) => new Type[] { typeof(InfoModule), typeof(WelcomeService) };
     }
 }

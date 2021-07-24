@@ -14,13 +14,13 @@ namespace GLaDOSV3.Module.Default
 {
     [Name("General")]
     [RequireContext(ContextType.Guild)]
-    public class GeneralModule : ModuleBase<SocketCommandContext>
+    public class GeneralModule : ModuleBase<ShardedCommandContext>
     {
         private static MemoryCache _mCache;
         public GeneralModule() => _mCache ??= new MemoryCache(new MemoryCacheOptions());
 
         [Name("Guild settings")]
-        public class Guild : ModuleBase<SocketCommandContext>
+        public class Guild : ModuleBase<ShardedCommandContext>
         {
             [Command("guild farewell message")]
             [Summary("Set the current message of Guild Join module")]

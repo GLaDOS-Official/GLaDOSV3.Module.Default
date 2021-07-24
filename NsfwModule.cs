@@ -11,11 +11,11 @@ using System.Xml.Linq;
 namespace GLaDOSV3.Module.Default
 {
     [Name("NSFW")]
-    public class NsfwModule : ModuleBase<SocketCommandContext>
+    public class NsfwModule : ModuleBase<ShardedCommandContext>
     {
         [Attributes.RequireOwner]
         [RequireContext(ContextType.Guild)]
-        public class Bot : ModuleBase<SocketCommandContext>
+        public class Bot : ModuleBase<ShardedCommandContext>
         {
             [Command("nsfw enable")]
             [Remarks("nsfw enable")]

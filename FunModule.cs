@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace GLaDOSV3.Module.Default
 {
     [Name("Fun")]
-    public class FunModule : ModuleBase<SocketCommandContext>
+    public class FunModule : ModuleBase<ShardedCommandContext>
     {
         private readonly Random rnd = new Random();
         [Command("catfact")]

@@ -10,7 +10,7 @@ namespace GLaDOSV3.Module.Default
 {
     [Name("Moderator")]
     [RequireContext(ContextType.Guild)]
-    public class ModeratorModule : ModuleBase<SocketCommandContext>
+    public class ModeratorModule : ModuleBase<ShardedCommandContext>
     {
         [Command("purge")]
         [Remarks("purge [no. of messages]")]

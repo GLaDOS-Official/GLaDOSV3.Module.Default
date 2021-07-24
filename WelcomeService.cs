@@ -10,8 +10,8 @@ namespace GLaDOSV3.Module.Default
     internal class WelcomeService
     {
 
-        // DiscordSocketClient, CommandService, and IConfigurationRoot are injected automatically from the IServiceProvider
-        public WelcomeService(DiscordSocketClient discord)
+        // DiscordShardedClient, CommandService, and IConfigurationRoot are injected automatically from the IServiceProvider
+        public WelcomeService(DiscordShardedClient discord)
         {
             discord.UserJoined += this.DiscordOnUserJoined;
             discord.UserLeft += this.DiscordOnUserLeft;
