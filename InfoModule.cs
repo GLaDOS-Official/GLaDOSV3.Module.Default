@@ -26,7 +26,7 @@ namespace GLaDOSV3.Module.Default
         private static string _infoMessage;
         private static DiscordShardedClient _client;
         private readonly Thread t = new Thread(new ThreadStart(RefreshMessage));
-        private static BotSettingsHelper<string> _botSettingsHelper;    
+        private static BotSettingsHelper<string> _botSettingsHelper;
         private static void RefreshMessage()
         {
             while (true)
@@ -56,9 +56,9 @@ namespace GLaDOSV3.Module.Default
                 {
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return Process.GetCurrentProcess().PagedMemorySize64;
                     var ramUsageLines = new List<string>();
-                    using var fs           = new FileStream("/proc/self/smaps", FileMode.Open, FileAccess.Read, FileShare.Read, 512, FileOptions.SequentialScan | FileOptions.Asynchronous);
-                    using var r            = new StreamReader(fs, Encoding.ASCII);
-                    string    line;
+                    using var fs = new FileStream("/proc/self/smaps", FileMode.Open, FileAccess.Read, FileShare.Read, 512, FileOptions.SequentialScan | FileOptions.Asynchronous);
+                    using var r = new StreamReader(fs, Encoding.ASCII);
+                    string line;
                     while ((line = r.ReadLine()) != null)
                     {
                         if (!line.StartsWith("Pss")) continue;
@@ -71,7 +71,7 @@ namespace GLaDOSV3.Module.Default
                         if (!int.TryParse(ramString, out int kiloBytes)) continue;
                         counter += kiloBytes * 1024;
                     }
-                    
+
                     return counter;
                 }
                 static float GetCpuUsage()
@@ -124,7 +124,7 @@ namespace GLaDOSV3.Module.Default
         [Remarks("info")]
         public async Task Info()
         {
-            IDMChannel dm = await Context.Message.Author.GetOrCreateDMChannelAsync().ConfigureAwait(true);
+            IDMChannel dm = await Context.Message.Author.CreateDMChannelAsync().ConfigureAwait(true);
             if (Context.Guild != null)
             {
                 _infoMessage += $"- Channels: {Context.Guild.Channels.Count} (in {Context.Guild.Name})\n" +
@@ -172,7 +172,7 @@ namespace GLaDOSV3.Module.Default
                     "For Mod usage higher perms are needed!\n" +
                     $"[Click to Invite](https://discordapp.com/oauth2/authorize?client_id={Context.Client.CurrentUser.Id}&scope=bot&permissions={GuildPermissions.All.RawValue})"
             };
-            IDMChannel dm = await Context.Message.Author.GetOrCreateDMChannelAsync().ConfigureAwait(true);
+            IDMChannel dm = await Context.Message.Author.CreateDMChannelAsync().ConfigureAwait(true);
             await dm.SendMessageAsync("", false, eb.Build()).ConfigureAwait(false);
             await dm.CloseAsync().ConfigureAwait(false);
         }
@@ -210,14 +210,68 @@ namespace GLaDOSV3.Module.Default
                     x.IsInline = true;
                     x.Value = new[] { "Offline", "Online", "Idle", "AFK", "Do not disturb", "Invisible" }[(int)userInfo.Status];
                 });
-                if (!string.IsNullOrWhiteSpace(userInfo.Activity?.Name))
+                if (userInfo.Activities.Count != 0)
                 {
-                    eb.AddField(x =>
+                    foreach (var activity in userInfo.Activities)
                     {
-                        x.Name = "Game";
-                        x.IsInline = true;
-                        x.Value = $"{(userInfo.Activity.Name)}";
-                    });
+                        switch (activity.Type)
+                        {
+                            case ActivityType.Playing:
+                                {
+                                    eb.AddField(x =>
+                                    {
+                                        x.Name = $"Playing...";
+                                        x.IsInline = true;
+                                        x.Value = $"Game:{(activity.Name)}\nDetails:{activity.Details}";
+                                    });
+                                }
+                                break;
+                            case ActivityType.Streaming:
+
+                                {
+                                    eb.AddField(x =>
+                                    {
+                                        x.Name = $"Streaming...";
+                                        x.IsInline = true;
+                                        x.Value = $"Game:{(activity.Name)}\nDetails:{activity.Details}";
+                                    });
+                                }
+                                break;
+                            case ActivityType.Listening:
+                                {
+                                    eb.AddField(x =>
+                                    {
+                                        x.Name = $"Listening to...";
+                                        x.IsInline = true;
+                                        x.Value = $"Music:{(activity.Name)}\nDetails:{activity.Details}";
+                                    });
+                                }
+                                break;
+                            case ActivityType.Watching:
+
+                                {
+                                    eb.AddField(x =>
+                                    {
+                                        x.Name = $"Watching...";
+                                        x.IsInline = true;
+                                        x.Value = $"{(activity.Name)}\nDetails:{activity.Details}";
+                                    });
+                                }
+                                break;
+                            case ActivityType.CustomStatus:
+
+                                {
+                                    eb.AddField(x =>
+                                    {
+                                        x.Name = $"Custom status";
+                                        x.IsInline = true;
+                                        x.Value = $"Status:{(activity.Name)}\nDetails:{activity.Details}";
+                                    });
+                                }
+                                break;
+                        }
+
+                    }
                 }
 
                 eb.AddField(x =>

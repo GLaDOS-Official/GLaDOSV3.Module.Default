@@ -108,7 +108,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync("Why would you kick yourself?").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync("Why would you kick yourself?").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync("Why would you kick yourself?").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
             SocketGuildUser moderator = Context.User as SocketGuildUser;
@@ -117,7 +117,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync($"Sorry, you can't kick {mention.Mention} as he's above you.").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, you can't kick {mention.Mention} as he's above you.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, you can't kick {mention.Mention} as he's above you.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -126,7 +126,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync($"Sorry, I can't kick {mention.Mention} as he's above me.").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, I can't kick {mention.Mention} as he's above me.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, I can't kick {mention.Mention} as he's above me.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -141,7 +141,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync($"Bai bai {mention.Mention}! :wave:").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)(await (await Context.Message.Author.GetOrCreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync($"Bai bai {mention.Mention}! :wave:").ConfigureAwait(false)).Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)(await (await Context.Message.Author.CreateDMChannelAsync().ConfigureAwait(false)).SendMessageAsync($"Bai bai {mention.Mention}! :wave:").ConfigureAwait(false)).Channel).CloseAsync().ConfigureAwait(false);
             }
             catch
             {
@@ -168,7 +168,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync("Why would you ban yourself?").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync("Why would you ban yourself?").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync("Why would you ban yourself?").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
             SocketGuildUser moderator = Context.User as SocketGuildUser;
@@ -177,7 +177,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync($"Sorry, you can't ban {mention.Mention} as he's above you.").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, you can't ban {mention.Mention} as he's above you.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, you can't ban {mention.Mention} as he's above you.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -186,7 +186,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync($"Sorry, I can't ban {mention.Mention} as he's above me.").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, I can't ban {mention.Mention} as he's above me.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, I can't ban {mention.Mention} as he's above me.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -200,7 +200,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync($"Begone {mention.Mention}!").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Begone {mention.Mention}!").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Begone {mention.Mention}!").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
 
             }
             catch
@@ -228,7 +228,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync("Why would you ban yourself?").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync("Why would you ban yourself?").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync("Why would you ban yourself?").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -239,7 +239,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync($"Sorry, you can't ban {user.Mention} as he's above you.").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, you can't ban {user.Mention} as he's above you.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, you can't ban {user.Mention} as he's above you.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -248,7 +248,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync($"Sorry, I can't ban {user.Mention} as he's above me.").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, I can't ban {user.Mention} as he's above me.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Sorry, I can't ban {user.Mention} as he's above me.").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -262,7 +262,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync($"Begone {user.Mention}!").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Begone {user.Mention}!").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync($"Begone {user.Mention}!").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
 
             }
             catch
@@ -290,7 +290,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync("Why would you ban yourself?").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync("Why would you ban yourself?").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync("Why would you ban yourself?").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
 
@@ -300,7 +300,7 @@ namespace GLaDOSV3.Module.Default
                 if (!silent)
                     await this.ReplyAsync("User is in this server!").ConfigureAwait(false);
                 else
-                    await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync("User is in this server!").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
+                    await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult().SendMessageAsync("User is in this server!").GetAwaiter().GetResult().Channel).CloseAsync().ConfigureAwait(false);
                 return;
             }
             SocketUser normalUser = Context.Client.GetUser(userid);
@@ -315,7 +315,7 @@ namespace GLaDOSV3.Module.Default
                     if (!silent)
                         await this.ReplyAsync($"Begone {normalUser.Mention}!").ConfigureAwait(false);
                     else
-                        await ((IDMChannel)Context.Message.Author.GetOrCreateDMChannelAsync().GetAwaiter().GetResult()
+                        await ((IDMChannel)Context.Message.Author.CreateDMChannelAsync().GetAwaiter().GetResult()
                                 .SendMessageAsync($"Begone {normalUser.Mention}!").GetAwaiter().GetResult().Channel)
                             .CloseAsync().ConfigureAwait(false);
                 }
