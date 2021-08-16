@@ -25,7 +25,6 @@ namespace GLaDOSV3.Module.Default
     {
         private static string _infoMessage;
         private static DiscordShardedClient _client;
-        private readonly Thread t = new Thread(new ThreadStart(RefreshMessage));
         private static BotSettingsHelper<string> _botSettingsHelper;
         private static void RefreshMessage()
         {
@@ -114,10 +113,12 @@ namespace GLaDOSV3.Module.Default
         }
         public InfoModule(DiscordShardedClient socketClient, BotSettingsHelper<string> botSettingsHelper)
         {
-            if (_client != null && InfoModule._botSettingsHelper != null) return;
-            InfoModule._botSettingsHelper = botSettingsHelper;
+            if (_client != null && _botSettingsHelper != null) return;
+            _botSettingsHelper = botSettingsHelper;
             _client = socketClient;
-            this.t.Start();
+            new Thread(new ThreadStart(RefreshMessage)) 
+                { IsBackground = true, Name = "Info command refresher" }
+                .Start();
         }
         [Command("info")]
         [Summary("Displays bot info.")]
