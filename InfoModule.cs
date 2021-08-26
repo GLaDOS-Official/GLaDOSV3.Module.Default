@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using GLaDOSV3.Models;
 using GLaDOSV3.Services;
 using Universe.CpuUsage;
 
@@ -23,8 +24,8 @@ namespace GLaDOSV3.Module.Default
     [Name("Info")]
     public class InfoModule : ModuleBase<ShardedCommandContext>
     {
-        private static string _infoMessage;
-        private static DiscordShardedClient _client;
+        private static string                    _infoMessage;
+        private static DiscordShardedClient      _client;
         private static BotSettingsHelper<string> _botSettingsHelper;
         private static void RefreshMessage()
         {
@@ -102,7 +103,7 @@ namespace GLaDOSV3.Module.Default
                     $"- Heap Size: {ToFileSize2(GC.GetTotalMemory(true))}\n" +
                     $"- Owner of the bot: <@{ulong.Parse(_botSettingsHelper["ownerID"], CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture)}>\n" +
                     $"- Version: {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}\n" +
-                    $"- Compiled at: {ModuleInfo.GetModule().GetCompileTime().ToShortDateString()} ({(DateTime.UtcNow - ModuleInfo.GetModule().GetCompileTime()).Days} days ago!)\n" +
+                    $"- Compiled at: {ModuleInfo.GetCompileTime().ToShortDateString()} ({(DateTime.UtcNow - ModuleInfo.GetCompileTime()).Days} days ago!)\n" +
                     "- Author of the bot: BlackOfWorld <3\n\n" +
 
                     $"{Format.Bold("Stats")}\n" +
