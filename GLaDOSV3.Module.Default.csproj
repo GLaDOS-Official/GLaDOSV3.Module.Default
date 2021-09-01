@@ -49,4 +49,7 @@
     <Copy SourceFiles="Dependencies\MathParser.org-mXparser.dll" DestinationFolder="..\GLaDOSV3\$(OutDir)\Dependencies"></Copy>
     <Copy SourceFiles="Dependencies\Universe.CpuUsage.dll" DestinationFolder="..\GLaDOSV3\$(OutDir)\Dependencies"></Copy>
   </Target>
+  <Target Condition="'$(Configuration)'=='DEBUG'" Name="DebugPostBuild" AfterTargets="PostBuildEvent">
+    <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="..\GLaDOSV3\$(OutDir)\Modules"></Copy>
+  </Target>
 </Project>

@@ -28,7 +28,7 @@ namespace GLaDOSV3.Module.Default
                     await ((ISocketMessageChannel)guild.GetChannel(Convert.ToUInt64(db.Rows[0]["joinleave_cid"], CultureInfo.InvariantCulture))).SendMessageAsync(text).ConfigureAwait(false);
                 else
                 {
-                    await guild.Owner.SendMessageAsync($"I tried to send a welcome message to a channel, but it now longer exists. Please set this up again in server {guild.Name}.").ConfigureAwait(false); await this.Disable(guild).ConfigureAwait(false);
+                    await guild.Owner.SendMessageAsync($"I tried to send a welcome message to a channel, but it now longer exists. Please set this up again in server {guild.Name}.").ConfigureAwait(false); await Disable(guild).ConfigureAwait(false);
                 }
             }
         }
@@ -47,12 +47,12 @@ namespace GLaDOSV3.Module.Default
                 {
                     await guild.Owner
                         .SendMessageAsync($"I tried to send a farewell message to a channel, but it now longer exists. Please set this up again in server {guild.Name}.").ConfigureAwait(false);
-                    await this.Disable(guild).ConfigureAwait(false);
+                    await Disable(guild).ConfigureAwait(false);
                 }
             }
         }
 
-        private Task Disable(SocketGuild guild)
+        private static Task Disable(SocketGuild guild)
         {
             SqLite.Connection.SetValueAsync("servers", "join_toggle", 0, $"WHERE guildid={guild.Id.ToString(CultureInfo.InvariantCulture)}");
             SqLite.Connection.SetValueAsync("servers", "leave_toggle", 0, $"WHERE guildid={guild.Id.ToString(CultureInfo.InvariantCulture)}");

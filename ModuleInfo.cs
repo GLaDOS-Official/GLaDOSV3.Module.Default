@@ -13,7 +13,7 @@ namespace GLaDOSV3.Module.Default
     {
         public override string Name    => "Default";
         public override string Version => "0.0.0.1";
-        public override string Author => "BlackOfWorld#8125";
+        public override string AuthorLink => "https://github.com/BlackOfWorld";
         public override Type[] Services(DiscordShardedClient discord, CommandService commands, BotSettingsHelper<string> config, IServiceCollection provider) => new Type[] { typeof(InfoModule), typeof(WelcomeService) };
     }
 }
