@@ -16,7 +16,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GLaDOSV3.Models;
-using GLaDOSV3.Services;
 using Universe.CpuUsage;
 
 namespace GLaDOSV3.Module.Default
@@ -65,10 +64,10 @@ namespace GLaDOSV3.Module.Default
                         ramUsageLines.Add(line);
                     }
 
-                    int counter = 0;
+                    var counter = 0;
                     foreach (var ramString in ramUsageLines.Select(ramUsageLine => ramUsageLine.Split(": ")[1].ReduceWhitespace()).Select(ramString => ramString[..^3]))
                     {
-                        if (!int.TryParse(ramString, out int kiloBytes)) continue;
+                        if (!int.TryParse(ramString, out var kiloBytes)) continue;
                         counter += kiloBytes * 1024;
                     }
 
@@ -86,7 +85,7 @@ namespace GLaDOSV3.Module.Default
                         Thread.Sleep(1000);
                         return cpuCounter.NextValue();
                     }
-                    var cpuUsage = CpuUsage.GetByProcess();
+                    CpuUsage? cpuUsage = CpuUsage.GetByProcess();
                     return cpuUsage?.UserUsage.Seconds ?? float.NaN;
                 }
                 Process.GetCurrentProcess().Refresh();
@@ -103,7 +102,7 @@ namespace GLaDOSV3.Module.Default
                     $"- Heap Size: {ToFileSize2(GC.GetTotalMemory(true))}\n" +
                     $"- Owner of the bot: <@{ulong.Parse(_botSettingsHelper["ownerID"], CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture)}>\n" +
                     $"- Version: {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}\n" +
-                    $"- Compiled at: {ModuleInfo.GetCompileTime().ToShortDateString()} ({(DateTime.UtcNow - ModuleInfo.GetCompileTime()).Days} days ago!)\n" +
+                    $"- Compiled at: {GladosModule.GetCompileTime().ToShortDateString()} ({(DateTime.UtcNow - GladosModule.GetCompileTime()).Days} days ago!)\n" +
                     "- Author of the bot: BlackOfWorld <3\n\n" +
 
                     $"{Format.Bold("Stats")}\n" +
@@ -117,7 +116,7 @@ namespace GLaDOSV3.Module.Default
             if (_client != null && _botSettingsHelper != null) return;
             _botSettingsHelper = botSettingsHelper;
             _client = socketClient;
-            new Thread(new ThreadStart(RefreshMessage)) 
+            new Thread(RefreshMessage) 
                 { IsBackground = true, Name = "Info command refresher" }
                 .Start();
         }

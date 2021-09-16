@@ -5,11 +5,14 @@
     <StartupObject></StartupObject>
     <ApplicationIcon />
     <AssemblyName>GLaDOSV3.Module.Default</AssemblyName>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>False</SignAssembly>
     <RootNamespace>GLaDOSV3.Module.Default</RootNamespace>
     <AssemblyVersion>1.0.133.8</AssemblyVersion>
     <FileVersion>1.0.133.8</FileVersion>
     <LangVersion>latest</LangVersion>
+    <DebugType>portable</DebugType>
+    <AnalysisLevel>preview</AnalysisLevel>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
