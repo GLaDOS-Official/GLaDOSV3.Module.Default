@@ -18,7 +18,7 @@ namespace GLaDOSV3.Module.Default
         {
             try
             {
-                math = math?.Replace("PI", "pi", StringComparison.OrdinalIgnoreCase).Replace(",","", StringComparison.OrdinalIgnoreCase); 
+                math = math?.Replace("PI", "pi", StringComparison.OrdinalIgnoreCase).Replace(",", "", StringComparison.OrdinalIgnoreCase);
                 var done = new Expression(math).calculate();
                 if (double.IsNaN(done))
                     throw new FormatException("idk");

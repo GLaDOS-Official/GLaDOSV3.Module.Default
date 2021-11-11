@@ -38,7 +38,7 @@ namespace GLaDOSV3.Module.Default
             [Summary("Get's status of the nsfw module (disabled by default)")]
             public async Task Status()
             {
-                string result = (Convert.ToInt32(SqLite.Connection.GetValuesAsync("servers", $"WHERE guildid='{Context.Guild.Id.ToString(CultureInfo.InvariantCulture)}'").GetAwaiter().GetResult().Rows[0]["nsfw"], CultureInfo.InvariantCulture) == 1) ? "enabled" : "disabled";
+                var result = (Convert.ToInt32(SqLite.Connection.GetValuesAsync("servers", $"WHERE guildid='{Context.Guild.Id.ToString(CultureInfo.InvariantCulture)}'").GetAwaiter().GetResult().Rows[0]["nsfw"], CultureInfo.InvariantCulture) == 1) ? "enabled" : "disabled";
                 var message =
                     $"The current status of nsfw module is: {result}";
                 await this.ReplyAsync(message).ConfigureAwait(false);
@@ -51,16 +51,16 @@ namespace GLaDOSV3.Module.Default
         [Remarks("e621 [tags]")]
         [Summary("Find images on e621 by the given tags.")]
         [RequireNsfw]
-        public async Task E621([Remainder]string tags = "")
+        public async Task E621([Remainder] string tags = "")
         {
             if (Convert.ToInt32(SqLite.Connection.GetValuesAsync("servers", $"WHERE guildid='{Context.Guild.Id.ToString(CultureInfo.InvariantCulture)}'").GetAwaiter().GetResult().Rows[0]["nsfw"], CultureInfo.InvariantCulture) == 0)
             { await this.ReplyAsync("The nsfw module is disabled on this server!").ConfigureAwait(false); return; }
-            string url = "https://e621.net/post/index.json?limit=20";
+            var url = "https://e621.net/post/index.json?limit=20";
             if (!string.IsNullOrEmpty(tags))
                 url += $"&tags={string.Join(" ", tags)}";
             if (this.blacklisted_tags.Any(tags.ToUpper(CultureInfo.InvariantCulture).Contains))
             { await this.ReplyAsync("You should probadly read the discord TOS...").ConfigureAwait(false); return; }
-            using var http = new HttpClient();
+            using HttpClient http = new HttpClient();
             http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Linux; Android 5.0; SM-G920A) AppleWebKit (KHTML, like Gecko) Chrome Mobile Safari (compatible; AdsBot-Google-Mobile; +http://www.google.com/mobile/adsbot.html)"); // we are GoogleBot
             var httpResult = http.GetAsync(url).ConfigureAwait(false).GetAwaiter().GetResult().Content.ReadAsStringAsync().GetAwaiter()
                 .GetResult();
@@ -69,9 +69,9 @@ namespace GLaDOSV3.Module.Default
             if (images.Count == 0)
             { await this.ReplyAsync("Couldn't find an image with those tags.").ConfigureAwait(false); return; }
 
-            string ext = string.Empty;
+            var ext = string.Empty;
             JObject image = null;
-            int retries = 6;
+            var retries = 6;
             while (ext != "png" && ext != "jpg" && ext != "jpeg" && ext != "gif" && ext != "webm" && ext != "mp4" && retries >= 0)
             {
                 image = (JObject)images[new Random().Next(0, images.Count)];
@@ -86,24 +86,24 @@ namespace GLaDOSV3.Module.Default
         [Remarks("r34 [tags]")]
         [Summary("Find images on rule34 by the given tags.")]
         [RequireNsfw]
-        public async Task Rule34([Remainder]string tags = "")
+        public async Task Rule34([Remainder] string tags = "")
         {
             if (Convert.ToInt32(SqLite.Connection.GetValuesAsync("servers", $"WHERE guildid='{Context.Guild.Id.ToString(CultureInfo.InvariantCulture)}'").GetAwaiter().GetResult().Rows[0]["nsfw"], CultureInfo.InvariantCulture) == 0)
             { await this.ReplyAsync("The nsfw module is disabled on this server!").ConfigureAwait(false); return; }
-            string url = "https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=20";
+            var url = "https://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=20";
             if (!string.IsNullOrEmpty(tags))
                 url += $"&tags={string.Join(" ", tags)}";
             if (this.blacklisted_tags.Any(tags.ToUpper(CultureInfo.InvariantCulture).Contains))
             { await this.ReplyAsync("You should probadly read the discord TOS...").ConfigureAwait(false); return; }
-            using var http = new HttpClient();
+            using HttpClient http = new HttpClient();
             http.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Linux; Android 5.0; SM-G920A) AppleWebKit (KHTML, like Gecko) Chrome Mobile Safari (compatible; AdsBot-Google-Mobile; +http://www.google.com/mobile/adsbot.html)"); // we are GoogleBot
             var httpResult = http.GetAsync(new Uri(url)).ConfigureAwait(false).GetAwaiter().GetResult().Content.ReadAsStringAsync().GetAwaiter()
                 .GetResult();
-            var xml = XDocument.Parse(httpResult);
+            XDocument xml = XDocument.Parse(httpResult);
             if (xml.Root != null)
             {
-                var xNodes = xml.Root.Elements().ToList();
-                var rndNode = xNodes[new Random().Next(xNodes.Count - 1)];
+                System.Collections.Generic.List<XElement> xNodes = xml.Root.Elements().ToList();
+                XElement rndNode = xNodes[new Random().Next(xNodes.Count - 1)];
                 await this.ReplyAsync($"Image score: {rndNode?.Attribute("score")?.Value}\n{rndNode?.Attribute("file_url")?.Value}").ConfigureAwait(false);
             }
         }

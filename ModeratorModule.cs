@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using GLaDOSV3.Attributes;
@@ -330,7 +330,7 @@ namespace GLaDOSV3.Module.Default
         [Remarks("say <text>")]
         [Summary("Make the bot say something")]
         [Attributes.RequireUserPermissionAttribute(GuildPermission.ManageGuild)]
-        public async Task Say([Remainder] string text)  
+        public async Task Say([Remainder] string text)
         {
             if (text.Contains("--s", StringComparison.OrdinalIgnoreCase))
             {
