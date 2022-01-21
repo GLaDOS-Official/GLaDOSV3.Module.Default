@@ -75,12 +75,12 @@ namespace GLaDOSV3.Module.Default
             while (ext != "png" && ext != "jpg" && ext != "jpeg" && ext != "gif" && ext != "webm" && ext != "mp4" && retries >= 0)
             {
                 image = (JObject)images[new Random().Next(0, images.Count)];
-                ext = image.GetValue("file_ext", StringComparison.OrdinalIgnoreCase).ToObject<string>();
+                ext = image.GetValue("file_ext", StringComparison.OrdinalIgnoreCase)?.ToObject<string>();
                 retries--;
             }
             if (image == null)
             { await this.ReplyAsync("Couldn't find an image with those tags.").ConfigureAwait(false); return; }
-            await this.ReplyAsync($"Image score: {image.GetValue("score", StringComparison.OrdinalIgnoreCase).ToObject<string>()}\n{image.GetValue("file_url", StringComparison.OrdinalIgnoreCase).ToObject<string>()}").ConfigureAwait(false);
+            await this.ReplyAsync($"Image score: {image.GetValue("score", StringComparison.OrdinalIgnoreCase)?.ToObject<string>()}\n{image.GetValue("file_url", StringComparison.OrdinalIgnoreCase).ToObject<string>()}").ConfigureAwait(false);
         }
         [Command("r34")]
         [Remarks("r34 [tags]")]

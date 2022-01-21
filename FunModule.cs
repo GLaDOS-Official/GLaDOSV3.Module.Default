@@ -111,7 +111,7 @@ namespace GLaDOSV3.Module.Default
         [Timeout(3, 15, Measure.Seconds)]
         public async Task Urban([Remainder] string word)
         {
-            word = await Tools.EscapeMentionsAsync(Context.Guild, Context.Channel, word).ConfigureAwait(true);
+            word = await Tools.EscapeMentionsAsync(Context.Channel, word).ConfigureAwait(true);
             using var http = new HttpClient();
             http.DefaultRequestHeaders.Add("User-Agent",
                                            "Mozilla/5.0 (Linux; Android 5.0; SM-G920A) AppleWebKit (KHTML, like Gecko) Chrome Mobile Safari (compatible; AdsBot-Google-Mobile; +http://www.google.com/mobile/adsbot.html)"); // we are GoogleBot
