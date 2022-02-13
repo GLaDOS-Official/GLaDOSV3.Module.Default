@@ -146,7 +146,7 @@ namespace GLaDOSV3.Module.Default
         {
             if (string.IsNullOrWhiteSpace(key))
             {
-                var random = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 19);
+                var random = Convert.ToBase64String(Guid.NewGuid().ToByteArray())[..19];
                 _mCache.Set("rebuildDB_All", random, TimeSpan.FromSeconds(45));
                 await this.ReplyAsync($"This is a dangerous operation! All server settings, blacklisted users, blacklisted servers will be lost! Type the \"{random}\" to rebuild it! This key will expire in 45 seconds!").ConfigureAwait(false);
                 return;
@@ -182,7 +182,7 @@ namespace GLaDOSV3.Module.Default
         {
             if (string.IsNullOrWhiteSpace(key))
             {
-                var random = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 19);
+                var random = Convert.ToBase64String(Guid.NewGuid().ToByteArray())[..19];
                 _mCache.Set("rebuildDB_ServerAll", random, TimeSpan.FromSeconds(45));
                 await this.ReplyAsync($"This is a dangerous operation! All server settings will be lost! Type \"{random}\" to rebuild it! This key will expire in 45 seconds!").ConfigureAwait(false);
                 return;
@@ -214,7 +214,7 @@ namespace GLaDOSV3.Module.Default
         {
             if (string.IsNullOrWhiteSpace(key))
             {
-                var random = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 19);
+                var random = Convert.ToBase64String(Guid.NewGuid().ToByteArray())[..19];
                 _mCache.Set("rebuildDB_ServerThis", random, TimeSpan.FromSeconds(45));
                 await this.ReplyAsync($"This is a dangerous operation! This server settings will be lost! Type \"{random}\" to rebuild it! This key will expire in 45 seconds!").ConfigureAwait(false);
                 return;

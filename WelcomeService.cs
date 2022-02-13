@@ -33,9 +33,8 @@ namespace GLaDOSV3.Module.Default
             }
         }
 
-        private async Task DiscordOnUserLeft(SocketGuildUser socketGuildUser)
+        private async Task DiscordOnUserLeft(SocketGuild guild, SocketUser socketGuildUser)
         {
-            var guild = socketGuildUser.Guild;
             using var db = await SqLite.Connection.GetValuesAsync("servers", $"WHERE guildid='{guild.Id.ToString(CultureInfo.InvariantCulture)}'").ConfigureAwait(true);
             if (Convert.ToInt32(db.Rows[0]["leave_toggle"], CultureInfo.InvariantCulture) == 1)
             {
